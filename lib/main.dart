@@ -110,19 +110,21 @@ class HabitProvider extends ChangeNotifier {
     _habits = _box.values.toList();
     
     if (_habits.isEmpty) {
-      // Seed V2 Data
+      // Seed V2 Data with Image Paths
+      // If we don't have images for others yet, we'll fallback to emoji in UI, 
+      // but for 'nofap', we definitely have an image.
+      addHabit('Energy', 'assets/icons/nofap.png', 0xFFFFD700, 0.0); // Gold
       addHabit('Smoking', '🚭', 0xFFE57373, 25.0); // ~25 RMB/pack
       addHabit('Coffee', '☕', 0xFFBA68C8, 30.0);  // ~30 RMB
-      addHabit('Late Night', '🌙', 0xFF64B5F6, 0.0);
     }
     notifyListeners();
   }
 
-  void addHabit(String title, String icon, int color, double cost) {
+  void addHabit(String title, String iconPath, int color, double cost) {
     final habit = Habit(
       id: const Uuid().v4(),
       title: title,
-      icon: icon,
+      icon: iconPath, // Now storing image path
       color: color,
       history: [],
       createdAt: DateTime.now(),
@@ -342,7 +344,6 @@ class HabitCard extends StatelessWidget {
         }
       },
       onLongPress: () {
-        // Delete option
         context.read<HabitProvider>().deleteHabit(habit);
       },
       child: AnimatedContainer(
@@ -358,12 +359,14 @@ class HabitCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            // Background Icon Faded
+            // Background Faded Asset (Image or Text)
             Positioned(
-              right: -10, bottom: -10,
+              right: -20, bottom: -20,
               child: Opacity(
                 opacity: 0.1,
-                child: Text(habit.icon, style: const TextStyle(fontSize: 100)),
+                child: habit.icon.startsWith('assets/') 
+                    ? Image.asset(habit.icon, width: 140, height: 140, fit: BoxFit.cover)
+                    : Text(habit.icon, style: const TextStyle(fontSize: 100)),
               ),
             ),
             Padding(
@@ -375,7 +378,14 @@ class HabitCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(habit.icon, style: const TextStyle(fontSize: 32)),
+                      // Render Image if it's a path, else emoji
+                      habit.icon.startsWith('assets/')
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(habit.icon, width: 48, height: 48, fit: BoxFit.cover)
+                            )
+                          : Text(habit.icon, style: const TextStyle(fontSize: 32)),
+                          
                       if (done) 
                         const Icon(Icons.check_circle, color: Colors.white, size: 24)
                     ],
