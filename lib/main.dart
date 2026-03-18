@@ -110,12 +110,12 @@ class HabitProvider extends ChangeNotifier {
     _habits = _box.values.toList();
     
     if (_habits.isEmpty) {
-      // Seed V2 Data with Image Paths
-      // If we don't have images for others yet, we'll fallback to emoji in UI, 
-      // but for 'nofap', we definitely have an image.
+      // Seed V3 Data with AI Generated Image Paths
       addHabit('Energy', 'assets/icons/nofap.png', 0xFFFFD700, 0.0); // Gold
-      addHabit('Smoking', '🚭', 0xFFE57373, 25.0); // ~25 RMB/pack
-      addHabit('Coffee', '☕', 0xFFBA68C8, 30.0);  // ~30 RMB
+      addHabit('Smoking', 'assets/icons/smoking.png', 0xFFE57373, 25.0); // Red
+      addHabit('Sugar', 'assets/icons/sugar.png', 0xFFBA68C8, 30.0);  // Purple
+      addHabit('Sleep', 'assets/icons/sleep.png', 0xFF64B5F6, 0.0); // Blue
+      addHabit('Money', 'assets/icons/money.png', 0xFF81C784, 50.0); // Green
     }
     notifyListeners();
   }
