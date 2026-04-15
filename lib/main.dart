@@ -25,14 +25,20 @@ class MyApp extends StatelessWidget {
       title: 'Quit What?',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF0F0F0F),
-        colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF69F0AE), 
-          secondary: Color(0xFF448AFF),
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: const Color(0xFFFCF9F8), // background color
+        colorScheme: const ColorScheme.light(
+          primary: Color(0xFF4B645C), // primary
+          secondary: Color(0xFFCDE8E1), // secondary container
+          surface: Color(0xFFFCF9F8),
+          error: Color(0xFFA83836),
+          onPrimary: Color(0xFFE4FFF4),
+          onSecondary: Color(0xFF3E5751),
+          onSurface: Color(0xFF323233),
+          onError: Color(0xFFFFF7F6),
         ),
         useMaterial3: true,
-        fontFamily: 'Roboto', 
+        fontFamily: 'Inter', // Default to Inter as per HTML body
       ),
       home: const HomeScreen(),
     );
